@@ -1,0 +1,42 @@
+﻿@model Asm_C5.Models.Combo
+
+@{
+    ViewData["Title"] = "Chỉnh sửa Combo";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">✏️ Chỉnh sửa Combo</h2>
+
+    <form method="post" asp-action="Edit" enctype="multipart/form-data">
+        <input type="hidden" asp-for="Id" />
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Tên Combo</label>
+            <input asp-for="Name" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="control-label">Giá</label>
+            <input asp-for="Price" type="number" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantity" class="control-label">Số lượng</label>
+            <input asp-for="Quantity" type="number" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="ImagePath" class="control-label">Hình ảnh hiện tại</label>
+            @if (!string.IsNullOrEmpty(Model.ImagePath))
+            {
+                <img src="@Model.ImagePath" alt="Current Image" style="max-width: 200px; height: auto;" class="d-block mb-2" />
+            }
+            else
+            {
+                <p>Không có hình ảnh</p>
+            }
+        </div>
+        <div class="form-group">
+            <label class="control-label">Cập nhật hình ảnh</label>
+            <input type="file" name="imageFile" class="form-control" accept="image/*" />
+        </div>
+        <button type="submit" class="btn btn-primary">💾 Lưu</button>
+        <a href="@Url.Action("Index", "Combo")" class="btn btn-secondary">❌ Hủy</a>
+    </form>
+</div>

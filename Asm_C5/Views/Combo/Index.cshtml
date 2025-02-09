@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Asm_C5.Models.Combo>
+
+@{
+    ViewData["Title"] = "Danh sách Combo";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">🍱 Danh sách Combo</h2>
+
+    <!-- Form tìm kiếm -->
+    <form method="get" action="@Url.Action("Index", "Combo")" class="mb-4">
+        <div class="input-group">
+            <input type="text" name="comBoName" class="form-control mx-1" placeholder="Nhập tên combo..." value="@ViewBag.ComBoName" />
+            <input type="number" name="giaCombomin" class="form-control mx-1" placeholder="Giá tối thiểu" value="@ViewBag.ComboMin" />
+            <input type="number" name="giaComBomax" class="form-control mx-1" placeholder="Giá tối đa" value="@ViewBag.ComboMax" />
+            <div class="input-group-append mx-2">
+                <button type="submit" class="btn btn-primary">🔍 Tìm kiếm</button>
+            </div>
+        </div>
+    </form>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <a href="@Url.Action("Create", "Combo")" class="btn btn-success mb-3">➕ Thêm Combo</a>
+    }
+
+    <div class="row">
+        @foreach (var combo in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    @if (!string.IsNullOrEmpty(combo.ImagePath))
+                    {
+                        <img src="@combo.ImagePath" class="card-img-top" alt="@combo.Name" style="height: 200px; object-fit: cover;" />
+                    }
+                    else
+                    {
+                        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+                            <span class="text-muted">Không có hình ảnh</span>
+                        </div>
+                    }
+
+                    <div class="card-body">
+                        <h5 class="card-title">@combo.Name</h5>
+                        <p class="card-text"><strong>Giá:</strong> @combo.Price.ToString("N0"),000 VNĐ</p>
+                        <p class="card-text"><strong>Số lượng:</strong> @combo.Quantity</p>
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <a href="@Url.Action("Edit", "Combo", new { id = combo.Id })" class="btn btn-warning btn-sm">✏️ Sửa</a>
+                            <form method="post" action="@Url.Action("Delete", "Combo", new { id = combo.Id })" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-sm">🗑️ Xóa</button>
+                            </form>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("Detail", "ComboDetail", new { id = combo.Id })" class="btn btn-info btn-sm">📄 Xem chi tiết</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

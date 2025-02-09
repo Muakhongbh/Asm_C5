@@ -1,0 +1,38 @@
+﻿@model Asm_C5.Models.FoodItem
+
+@{
+    ViewData["Title"] = Model.Name;
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <img src="@Model.ImageUrl" class="img-fluid rounded-start" alt="@Model.Name" />
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">@Model.Name</h2>
+                    <p class="card-text"><strong>Giá:</strong> @(Model.Price.ToString("C"))</p>
+                    <p class="card-text"><strong>Loại:</strong> @Model.Category</p>
+                    <p class="card-text"><strong>Mô tả:</strong> @Model.Description</p>
+                    <p class="card-text"><strong>Số lượng:</strong> @Model.Quantity</p>
+
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <form asp-action="AddToCart" method="post">
+                            <input type="hidden" name="foodItemId" value="@Model.Id" />
+                            <button type="submit" class="btn btn-success">Thêm vào giỏ hàng</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("Login", "Account")" class="btn btn-primary">Đăng nhập để thêm vào giỏ hàng</a>
+                    }
+
+                    <a href="@Url.Action("Index", "Food")" class="btn btn-secondary mt-2">Trở lại danh sách món ăn</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

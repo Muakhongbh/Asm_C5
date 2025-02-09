@@ -1,0 +1,64 @@
+﻿@model Asm_C5.Models.FoodItem
+
+@{
+    ViewData["Title"] = "Chỉnh sửa món ăn";
+}
+
+<div class="container mt-4">
+    <div class="card shadow">
+        <div class="card-body">
+            <h2 class="text-center mb-4">✏️ Chỉnh sửa món ăn</h2>
+
+            <form method="post" action="Edit" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
+
+                <div class="mb-3">
+                    <label class="form-label">Tên món ăn</label>
+                    <input type="text" asp-for="Name" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Giá</label>
+                    <input type="number" asp-for="Price" class="form-control" required min="0" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Số lượng</label>
+                    <input type="number" asp-for="Quantity" class="form-control" required min="1" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Loại</label>
+                    <input type="text" asp-for="Category" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Mô tả</label>
+                    <textarea asp-for="Description" class="form-control" required></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Hình ảnh hiện tại</label>
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <img src="@Model.ImageUrl" alt="Current Image" style="max-width: 200px; height: auto;" class="d-block mb-2" />
+                    }
+                    else
+                    {
+                        <p>Không có hình ảnh</p>
+                    }
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Cập nhật hình ảnh</label>
+                    <input type="file" name="imageFile" class="form-control" />
+                </div>
+
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">💾 Lưu</button>
+                    <a href="@Url.Action("Index", "Food")" class="btn btn-secondary">❌ Hủy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,105 @@
+﻿@model dynamic
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Combo Chi Tiết</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="/images/favicon.ico">
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.8/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body class="page1">
+    <div class="content container mt-5">
+        <!-- Hiển thị thông tin Combo -->
+        <div class="card mb-4">
+            <div class="card-body">
+                <h1 class="card-title">@Model.ComboName</h1>
+                <img src="@Model.ComboImageUrl" alt="@Model.ComboName" class="img-fluid mb-3" />
+                <h2 class="text-success">Giá Combo: @Model.ComboPrice.ToString("C")</h2>
+            </div>
+        </div>
+
+        @if (User.IsInRole("Customer"))
+        {
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h3 class="card-title">Sản phẩm trong Combo:</h3>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Tên Sản Phẩm</th>
+                                <th>Hình Ảnh</th>
+                                <th>Giá</th>
+                                <th>Số Lượng</th>
+                                <th>Tổng Giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.FoodItems != null && Model.FoodItems.Count > 0)
+                            {
+                                foreach (var item in Model.FoodItems)
+                                {
+                                    <tr>
+                                        <td>@item.FoodName</td>
+                                        <td>
+                                            <img src="@item.FoodImageUrl" alt="@item.FoodName" class="img-thumbnail" style="width: 50px; height: 50px;" />
+                                        </td>
+                                        <td>@item.FoodPrice.ToString("C")</td>
+                                        <td>@item.FoodQuantity</td>
+                                        <td>@(item.FoodPrice * item.FoodQuantity).ToString("C")</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="5" class="text-center">Không có sản phẩm nào trong Combo.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="text-center">
+                <form asp-action="AddToCart" method="post">
+                    <input type="hidden" name="id" value="@Model.ComboId" />
+                    <input type="hidden" name="type" value="Combo" />
+                    <div class="form-group">
+                        <label for="quantity">Số lượng:</label>
+                        <input type="number" id="quantity" name="soLuong" min="1" value="1" class="form-control d-inline-block" style="width: 100px;" required />
+                    </div>
+                    <button type="submit" class="btn btn-success">Mua Combo</button>
+                </form>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                Bạn cần <a href="@Url.Action("Login", "Account")">đăng nhập</a> để xem chi tiết combo và thêm vào giỏ hàng.
+            </div>
+            <div class="text-center">
+                <a href="@Url.Action("Login", "Account")" class="btn btn-warning">Đăng nhập</a>
+                <a href="@Url.Action("Register", "Account")" class="btn btn-warning">Đăng ký</a>
+            </div>
+        }
+    </div>
+
+    <footer>
+        <div class="container_12">
+            <div class="grid_6 prefix_3">
+                <a href="index.html" class="f_logo"><img src="/images/f_logo.png" alt=""></a>
+                <div class="copy">
+                    &copy; 2024 | <a href="#">Chính Sách Bảo Mật</a><br>
+                    Website phát triển bởi <a href="https://www.yourcompany.com" rel="nofollow">Your Company</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

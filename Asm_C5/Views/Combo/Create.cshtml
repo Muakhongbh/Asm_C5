@@ -1,0 +1,30 @@
+﻿@model Asm_C5.Models.Combo
+
+@{
+    ViewData["Title"] = "Thêm Combo";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">➕ Thêm Combo</h2>
+
+    <form method="post" asp-action="Create" enctype="multipart/form-data">
+        <div class="form-group">
+            <label asp-for="Name" class="control-label">Tên Combo</label>
+            <input asp-for="Name" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="Price" class="control-label">Giá</label>
+            <input asp-for="Price" type="number" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="Quantity" class="control-label">Số lượng</label>
+            <input asp-for="Quantity" type="number" class="form-control" required />
+        </div>
+        <div class="form-group">
+            <label asp-for="ImagePath" class="control-label">Hình ảnh</label>
+            <input type="file" name="imageFile" class="form-control" accept="image/*" required />
+        </div>
+        <button type="submit" class="btn btn-success">✅ Thêm</button>
+        <a href="@Url.Action("Index", "Combo")" class="btn btn-secondary">❌ Hủy</a>
+    </form>
+</div>
